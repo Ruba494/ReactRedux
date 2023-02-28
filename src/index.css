@@ -126,6 +126,7 @@ li {
   cursor: pointer;
 }
 .replying-to {
+  text-align: left;
   border: none;
   background: transparent;
   margin: 0;
