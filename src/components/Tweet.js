@@ -5,15 +5,25 @@ import {
     TiHeartOutline,
     TiHeartFullOutline
 } from "react-icons/ti";
+import {handleToggleTweet} from '../actions/tweets'
+import {
+    Link, useNavigate,
+} from "react-router-dom";
 
 const Tweet = (props) => {
+    const navigate=useNavigate()
     const toParent = (e, parentId) => {
         e.preventDefault()
-
+    navigate(`/tweet/${parentId}`)
     }
     const handelLike = (e) => {
         e.preventDefault()
-
+        const {dispatch, tweet, authUser} = props
+        dispatch(handleToggleTweet({
+            id:tweet.id,
+            hasLiked:tweet.hasLiked,
+            authUser
+        }))
     }
 
     if (props.tweet === null) {
@@ -21,8 +31,8 @@ const Tweet = (props) => {
             this tweet doesn't exist
         </h3>
     }
-    const {name, avatar, timestamp, text, hasLike, likes, replies, parent} = props.tweet
-    return <div className='tweet'>
+    const {name, avatar, timestamp, text, hasLiked, likes, replies, parent,id} = props.tweet
+    return <Link to={`/tweet/${id}`} className='tweet' >
         <img src={avatar} alt={`avatar of ${name}`} className='avatar'/>
         <div className='tweet-info'>
             <span>{name}</span>
@@ -39,7 +49,7 @@ const Tweet = (props) => {
                 <TiArrowBackOutline className='tweet-icon'/>
                 <span>{replies !== 0 && replies}</span>
                 <button className='heart-button' onClick={handelLike}>
-                    {hasLike === true ?
+                    {hasLiked === true ?
                         (<TiHeartFullOutline color='e0245e' className='tweet-icon'/>) :
                         (<TiHeartOutline className='tweet-icon'/>)
                     }
@@ -49,7 +59,7 @@ const Tweet = (props) => {
         </div>
 
 
-    </div>
+    </Link>
 }
 
 
